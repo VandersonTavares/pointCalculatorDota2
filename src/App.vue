@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <div class="hero">
-      <video class="responsive-video" autoplay loop playsinline>
+      <!-- <video class="responsive-video" autoplay loop playsinline preload="auto">
         <source type="video/webm"
           src="https://cdn.cloudflare.steamstatic.com/apps/dota2/videos/dota_react/homepage/dota_montage_webm.webm">
         <source type="video/mp4"
           src="https://cdn.cloudflare.steamstatic.com/apps/dota2/videos/dota_react/homepage/dota_montage_02.mp4">
-      </video>
+      </video> -->
       <div class="video-overlay">
         <p class="overlay-text">"Dota Points <br>Calculator"</p>
         <div class="line"></div>
@@ -94,6 +94,9 @@
       </div>
     </div>
   </div>
+  <div class="author">
+    <p>Agerfist@Azralon</p>
+  </div>
 </template>
 
 <script setup>
@@ -147,31 +150,54 @@ const pontuacaoFinal = computed(() => {
 </script>
 
 <style scoped>
+.author {
+  position: fixed;
+  top: -10px; /* Distância do fundo */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+
 .footer-container {
-  position: fixed; /* Posição fixa */
-  bottom: 0; /* Alinha no final da página */
-  width: 100%; /* Largura total */
-  background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo */
-  color: white; /* Cor do texto */
-  padding: 20px; /* Espaçamento interno */
-  text-align: center; /* Alinha o texto ao centro */
-  z-index: 999; /* Coloca na frente de todos os outros elementos */
+  position: fixed;
+  /* Posição fixa */
+  bottom: 0;
+  /* Alinha no final da página */
+  width: 100%;
+  /* Largura total */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Cor de fundo */
+  color: white;
+  /* Cor do texto */
+  padding: 20px;
+  /* Espaçamento interno */
+  text-align: center;
+  /* Alinha o texto ao centro */
+  z-index: 999;
+  /* Coloca na frente de todos os outros elementos */
 }
 
 .config-container {
-  margin-top: 20px; /* Espaçamento superior */
+  margin-top: 20px;
+  /* Espaçamento superior */
 }
 
-.main-content{
+.main-content {
   text-align: center;
 }
+
 .config-input-row {
-  display: flex; /* Exibe os inputs na horizontal */
-  justify-content: center; /* Centraliza os inputs horizontalmente */
+  display: flex;
+  /* Exibe os inputs na horizontal */
+  justify-content: center;
+  /* Centraliza os inputs horizontalmente */
 }
 
 .config-input {
-  margin: 0 10px; /* Espaçamento entre os inputs */
+  margin: 0 10px;
+  /* Espaçamento entre os inputs */
 }
 
 .custom-input {
@@ -190,7 +216,11 @@ const pontuacaoFinal = computed(() => {
   overflow: hidden;
   display: flex;
   justify-content: center;
-  align-items: center; /* Centraliza verticalmente */
+  align-items: center;
+  background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/home/radiant_dire5.jpg');
+  background-size: cover; /* Para cobrir todo o espaço da div */
+  background-position: center; /* Centralizar a imagem */
+
 }
 
 .responsive-video {
