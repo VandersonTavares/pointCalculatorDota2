@@ -62,7 +62,7 @@
       <div class="find-game-id">
         <h3>Game ID: <InputNumber v-model="gameId" inputStyle="width: 150px; height:20px"></InputNumber>
         </h3>
-        <Button @click="searchGame">Buscar</Button>
+        <Button type="button" label="Buscar" :loading="loading" @click="searchGame" />
       </div>
       <h3>Configuração dos Pesos das Pontuações</h3>
       <div class="config-input-row">
@@ -115,7 +115,7 @@
           <template #content>
             <div class="heroes">
               <div>{{ playerData.net_worth }}g Net Worth</div>
-              <div>{{ playerData.kills}} Abates</div>
+              <div>{{ playerData.kills }} Abates</div>
               <div>{{ playerData.deaths }} Mortes</div>
               <div>{{ playerData.assists }} Assistências</div>
               <div>{{ playerData.last_hits }} Last Hits</div>
@@ -187,6 +187,7 @@ const pontuacaoFinal = computed(() => {
 
 const playersData = ref([]);
 const gameId = ref();
+const loading = ref(false);
 
 function getHeroName(id) {
   const heroId = id.toString(); // Converter o ID para uma string
@@ -201,14 +202,25 @@ window.addEventListener('scroll', () => {
 });
 
 function searchGame() {
+  loading.value = true;
   axios.get(`https://api.opendota.com/api/matches/${gameId.value}`)
   .then(response => {
-    playersData.value = response.data.players
-      console.log(playersData.value)
-  })
-  .catch(error => {
+    playersData.value = response.data.players;
+    console.log(playersData.value);
+    })
+    .catch(error => {
       console.error('Ocorreu um erro ao fazer a requisição:', error);
     });
+  // Desça 500px abaixo
+  // Adicione um atraso de 2 segundos
+  setTimeout(() => {
+    loading.value = false;
+    // Desça 500px abaixo
+    window.scrollTo({
+      top: window.scrollY + 470,
+      behavior: 'smooth'
+    });
+  }, 2000); // 2000 milissegundos = 2 segundos
 }
 
 </script>
