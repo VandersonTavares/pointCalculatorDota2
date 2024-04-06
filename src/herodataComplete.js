@@ -213,7 +213,7 @@ const heroesData = {
         "url_small_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lina_sb.png",
         "url_large_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lina_lg.png",
         "url_vertical_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lina_vert.jpg",
-        "id": 25
+        "id": 24
     },
     31: {
         "localized_name": "Lich",
