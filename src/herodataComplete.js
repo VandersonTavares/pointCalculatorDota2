@@ -215,7 +215,7 @@ const heroesData = {
         "url_vertical_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lina_vert.jpg",
         "id": 25
     },
-    25: {
+    31: {
         "localized_name": "Lich",
         "url_full_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lich_full.png",
         "name": "npc_dota_hero_lich",
