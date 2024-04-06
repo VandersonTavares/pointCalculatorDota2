@@ -415,11 +415,11 @@ function getHeroBackground(heroId) {
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  width: 1300px;
 }
 
 .card-player {
   display: flex;
+  flex-wrap: wrap;
   width: 250px;
 }
 
