@@ -50,7 +50,9 @@
                 <label for="suporte">É Suporte?</label>
                 <Checkbox v-model="suporte" :binary="true" />
               </div>
+
               <h1>Pontuação Final: {{ pontuacaoFinal }}</h1>
+              <div class="erro-msg">{{ errorMessage }}</div>
             </div>
           </template>
         </Card>
@@ -64,6 +66,8 @@
         </h3>
         <Button type="button" label="Buscar" :loading="loading" @click="searchGame" />
       </div>
+      
+      
       <h3>Configuração dos Pesos das Pontuações</h3>
       <div class="config-input-row">
         <div class="config-input">
@@ -188,6 +192,7 @@ const pontuacaoFinal = computed(() => {
 const playersData = ref([]);
 const gameId = ref();
 const loading = ref(false);
+const errorMessage = ref('');
 
 function getHeroName(id) {
   const heroId = id.toString(); // Converter o ID para uma string
@@ -204,12 +209,15 @@ window.addEventListener('scroll', () => {
 function searchGame() {
   loading.value = true;
   axios.get(`https://api.opendota.com/api/matches/${gameId.value}`)
-  .then(response => {
-    playersData.value = response.data.players;
-    console.log(playersData.value);
+    .then(response => {
+      playersData.value = response.data.players;
+      console.log(playersData.value);
     })
     .catch(error => {
       console.error('Ocorreu um erro ao fazer a requisição:', error);
+      errorMessage.value = 'Não foi possível encontrar o jogo. Por favor, verifique o ID do jogo e tente novamente.';
+      console.log(errorMessage.value)
+      playersData.value = [];
     });
   // Desça 500px abaixo
   // Adicione um atraso de 2 segundos
@@ -424,5 +432,9 @@ function searchGame() {
 
 .hidden {
   display: none;
+}
+
+.erro-msg{
+  margin-top: 50px;
 }
 </style>
