@@ -206,14 +206,14 @@ const heroesData = {
         "url_vertical_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/kunkka_vert.jpg",
         "id": 23
     },
-    24: {
+    25: {
         "localized_name": "Lina",
         "url_full_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lina_full.png",
         "name": "npc_dota_hero_lina",
         "url_small_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lina_sb.png",
         "url_large_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lina_lg.png",
         "url_vertical_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/lina_vert.jpg",
-        "id": 24
+        "id": 25
     },
     31: {
         "localized_name": "Lich",
