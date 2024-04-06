@@ -65,9 +65,7 @@
         <h3>Game ID: <InputNumber v-model="gameId" inputStyle="width: 150px; height:20px"></InputNumber>
         </h3>
         <Button type="button" label="Buscar" :loading="loading" @click="searchGame" />
-      </div>
-      
-      
+      </div>     
       <h3>Configuração dos Pesos das Pontuações</h3>
       <div class="config-input-row">
         <div class="config-input">
@@ -106,8 +104,10 @@
   <Card class="card-section">
     <template #content>
       <div class="card-container-data">
-        <Card class="card-player" v-for="playerData in playersData" :key="playerData.account_id">
-          <template #title class="hero-name">{{ getHeroName(playerData.hero_id) }}</template>
+        <Card class="card-player" v-for="playerData in playersData" :key="playerData.account_id" :style="{ backgroundImage: `url(${getHeroBackground(playerData.hero_id)})`, backgroundSize: 'cover'}">
+          <template #title>
+              <div class="hero-name">{{getHeroName(playerData.hero_id) }}</div>
+          </template>
           <!-- Substituir o ID do herói pelo nome correspondente -->
           <!-- <template #subtitle>{{ getHeroName(playerData.hero_id) }}</template> -->
           <template #subtitle v-if="playerData.personaname">
@@ -126,9 +126,7 @@
             </div>
           </template>
           <template #footer>
-            <div class="pontuacao">
-              <div>Pontuação Final: 225</div>
-            </div>
+              <div class="pontuacao">Pontuação Final: 225</div>
           </template>
         </Card>
       </div>
@@ -145,7 +143,7 @@ import Checkbox from 'primevue/checkbox';
 import Button from 'primevue/button';
 import axios from 'axios';
 
-import heroesData from '../src/herodata.js';
+import heroesData from '../src/herodataComplete.js';
 
 const abatePontos = ref(2);
 const assistenciaPontos = ref(1);
@@ -229,6 +227,11 @@ function searchGame() {
       behavior: 'smooth'
     });
   }, 2000); // 2000 milissegundos = 2 segundos
+}
+
+function getHeroBackground(heroId) {
+  const hero = heroesData[heroId];
+  return hero ? hero.url_vertical_portrait : ''; // Retorna a URL da imagem do herói se disponível, senão retorna uma string vazia
 }
 
 </script>
@@ -403,6 +406,7 @@ function searchGame() {
   padding: 20px;
   margin-top: 50px;
   margin-bottom: 200px;
+  background-color: black;
 }
 
 .card-container-data {
@@ -424,10 +428,15 @@ function searchGame() {
   height: 20px;
   width: 210px;
   text-align: center;
+  color: #fff;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.527);
+  padding-top: 1px;
 }
 
 .player-name span {
   height: 30px;
+  
 }
 
 .hidden {
@@ -437,4 +446,19 @@ function searchGame() {
 .erro-msg{
   margin-top: 50px;
 }
+
+.heroes div, .hero-name, .pontuacao{
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adicione uma sombra ao texto */
+}
+
+.pontuacao{
+  color: #fff;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.527);
+}
+
+
+
 </style>
