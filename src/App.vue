@@ -57,8 +57,13 @@
       </div>
     </div>
   </div>
-  <div class="footer-container">
+  <div class="footer-container" :class="{ 'hidden': scrolledDown }">
     <div class="config-container">
+      <div class="find-game-id">
+        <h3>Game ID: <InputNumber v-model="gameId" inputStyle="width: 150px; height:20px"></InputNumber>
+        </h3>
+        <Button @click="searchGame">Buscar</Button>
+      </div>
       <h3>Configuração dos Pesos das Pontuações</h3>
       <div class="config-input-row">
         <div class="config-input">
@@ -94,16 +99,49 @@
       </div>
     </div>
   </div>
-  <div class="author">
-    <p>Agerfist@Azralon</p>
-  </div>
+  <Card class="card-section">
+    <template #content>
+      <div class="card-container-data">
+        <Card class="card-player" v-for="playerData in playersData" :key="playerData.account_id">
+          <template #title class="hero-name">{{ getHeroName(playerData.hero_id) }}</template>
+          <!-- Substituir o ID do herói pelo nome correspondente -->
+          <!-- <template #subtitle>{{ getHeroName(playerData.hero_id) }}</template> -->
+          <template #subtitle v-if="playerData.personaname">
+            <div class="player-name"> {{ playerData.personaname }}</div>
+          </template>
+          <template #subtitle v-else>
+            <div class="player-name">Nome não encontrado</div>
+          </template>
+          <template #content>
+            <div class="heroes">
+              <div>{{ playerData.net_worth }}g Net Worth</div>
+              <div>{{ playerData.kills}} Abates</div>
+              <div>{{ playerData.deaths }} Mortes</div>
+              <div>{{ playerData.assists }} Assistências</div>
+              <div>{{ playerData.last_hits }} Last Hits</div>
+            </div>
+          </template>
+          <template #footer>
+            <div class="pontuacao">
+              <div>Pontuação Final: 225</div>
+            </div>
+          </template>
+        </Card>
+      </div>
+    </template>
+  </Card>
+
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Card from 'primevue/card';
 import InputNumber from 'primevue/inputnumber';
 import Checkbox from 'primevue/checkbox';
+import Button from 'primevue/button';
+import axios from 'axios';
+
+import heroesData from '../src/herodata.js';
 
 const abatePontos = ref(2);
 const assistenciaPontos = ref(1);
@@ -147,12 +185,59 @@ const pontuacaoFinal = computed(() => {
   return pontuacao;
 });
 
+const playersData = ref([]);
+const gameId = ref();
+
+function getHeroName(id) {
+  const heroId = id.toString(); // Converter o ID para uma string
+  const hero = heroesData[heroId];
+  return hero ? hero.localized_name : 'Herói não encontrado';
+}
+
+const scrolledDown = ref(false);
+
+window.addEventListener('scroll', () => {
+  scrolledDown.value = window.scrollY > 100;
+});
+
+function searchGame() {
+  axios.get(`https://api.opendota.com/api/matches/${gameId.value}`)
+  .then(response => {
+    playersData.value = response.data.players
+      console.log(playersData.value)
+  })
+  .catch(error => {
+      console.error('Ocorreu um erro ao fazer a requisição:', error);
+    });
+}
+
 </script>
 
+<style>
+.p-card-title,
+.p-card-footer {
+  text-align: center;
+}
+</style>
+
 <style scoped>
+.find-game-id {
+  margin-top: -70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.find-game-id Button {
+  height: 20px;
+
+}
+
 .author {
   position: fixed;
-  top: -10px; /* Distância do fundo */
+  top: -10px;
+  /* Distância do fundo */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -177,10 +262,11 @@ const pontuacaoFinal = computed(() => {
   /* Alinha o texto ao centro */
   z-index: 999;
   /* Coloca na frente de todos os outros elementos */
+  background-color: black;
 }
 
 .config-container {
-  margin-top: 20px;
+  margin-top: 40px;
   /* Espaçamento superior */
 }
 
@@ -218,8 +304,10 @@ const pontuacaoFinal = computed(() => {
   justify-content: center;
   align-items: center;
   background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/home/radiant_dire5.jpg');
-  background-size: cover; /* Para cobrir todo o espaço da div */
-  background-position: center; /* Centralizar a imagem */
+  background-size: cover;
+  /* Para cobrir todo o espaço da div */
+  background-position: center;
+  /* Centralizar a imagem */
 
 }
 
@@ -289,5 +377,40 @@ const pontuacaoFinal = computed(() => {
   src: url('src/assets/fonts/Nexa-Heavy.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
+}
+
+.card-section {
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 200px;
+}
+
+.card-container-data {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 1300px;
+}
+
+.card-player {
+  display: flex;
+  width: 250px;
+}
+
+.player-name {
+  font-size: 14px;
+  height: 20px;
+  width: 210px;
+  text-align: center;
+}
+
+.player-name span {
+  height: 30px;
+}
+
+.hidden {
+  display: none;
 }
 </style>
