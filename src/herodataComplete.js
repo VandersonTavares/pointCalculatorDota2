@@ -89,7 +89,7 @@ const heroesData = {
         "url_vertical_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/nevermore_vert.jpg",
         "id": 11
     },
-    11: {
+    10: {
         "localized_name": "Morphling",
         "url_full_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/morphling_full.png",
         "name": "npc_dota_hero_morphling",
