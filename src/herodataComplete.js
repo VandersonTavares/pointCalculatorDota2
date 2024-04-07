@@ -80,7 +80,7 @@ const heroesData = {
         "url_vertical_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/mirana_vert.jpg",
         "id": 9
     },
-    10: {
+    11: {
         "localized_name": "Shadow Fiend",
         "url_full_portrait": "http://cdn.dota2.com/apps/dota2/images/heroes/nevermore_full.png",
         "name": "npc_dota_hero_nevermore",
