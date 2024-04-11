@@ -65,7 +65,7 @@
         <h3>Game ID: <InputNumber v-model="gameId" inputStyle="width: 150px; height:20px"></InputNumber>
         </h3>
         <Button type="button" label="Buscar" :loading="loading" @click="searchGame" />
-      </div>     
+      </div>
       <h3>Configuração dos Pesos das Pontuações</h3>
       <div class="config-input-row">
         <div class="config-input">
@@ -104,9 +104,10 @@
   <Card class="card-section">
     <template #content>
       <div class="card-container-data">
-        <Card class="card-player" v-for="playerData in playersData" :key="playerData.account_id" :style="{ backgroundImage: `url(${getHeroBackground(playerData.hero_id)})`, backgroundSize: 'cover'}">
+        <Card class="card-player" v-for="playerData in playersData" :key="playerData.account_id"
+          :style="{ backgroundImage: `url(${getHeroBackground(playerData.hero_id)})`, backgroundSize: 'cover' }">
           <template #title>
-              <div class="hero-name">{{getHeroName(playerData.hero_id) }}</div>
+            <div class="hero-name">{{ getHeroName(playerData.hero_id) }}</div>
           </template>
           <!-- Substituir o ID do herói pelo nome correspondente -->
           <!-- <template #subtitle>{{ getHeroName(playerData.hero_id) }}</template> -->
@@ -118,6 +119,9 @@
           </template>
           <template #content>
             <div class="heroes">
+              <div class="player-medal">
+                <img :src="getPlayerMedalImage(playerData.rank_tier)" :alt="getPlayerMedalAlt(playerData.rank_tier)">
+              </div>
               <div>{{ playerData.net_worth }}g Net Worth</div>
               <div>{{ playerData.kills }} Abates</div>
               <div>{{ playerData.deaths }} Mortes</div>
@@ -126,7 +130,7 @@
             </div>
           </template>
           <template #footer>
-              <div class="pontuacao">Pontuação Final: 225</div>
+            <div class="pontuacao">Pontuação Final: 225</div>
           </template>
         </Card>
       </div>
@@ -144,6 +148,7 @@ import Button from 'primevue/button';
 import axios from 'axios';
 
 import heroesData from '../src/herodataComplete.js';
+import ranksData from '../src/ranksdata.js';
 
 const abatePontos = ref(2);
 const assistenciaPontos = ref(1);
@@ -218,7 +223,7 @@ function searchGame() {
       playersData.value = [];
     });
   // Desça 500px abaixo
-  // Adicione um atraso de 2 segundos
+  // Atraso de 2 segundos
   setTimeout(() => {
     loading.value = false;
     // Desça 500px abaixo
@@ -232,6 +237,25 @@ function searchGame() {
 function getHeroBackground(heroId) {
   const hero = heroesData[heroId];
   return hero ? hero.url_vertical_portrait : ''; // Retorna a URL da imagem do herói se disponível, senão retorna uma string vazia
+}
+
+function getPlayerMedalImage(rankNumber) {
+  // Obtém o objeto de rank correto com base no número retornado pela API
+  const rankData = ranksData[rankNumber];
+  // Verifica se o rankData foi encontrado
+  if (rankData) {
+    // Retorna o caminho da imagem do rank
+    return rankData.image;
+  } else {
+    // Retorna um caminho de imagem padrão ou uma string vazia em caso de erro
+    return "/src/assets/images/uncalibrated.png";
+  }
+}
+function getPlayerMedalAlt(rankNumber) {
+  // Obtém o objeto de rank correto com base no número retornado pela API
+  const rankData = ranksData[rankNumber];
+  // Retorna o nome do rank ou uma string vazia em caso de erro
+  return rankData ? rankData.name : "";
 }
 
 </script>
@@ -418,6 +442,7 @@ function getHeroBackground(heroId) {
 }
 
 .card-player {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   width: 250px;
@@ -436,29 +461,41 @@ function getHeroBackground(heroId) {
 
 .player-name span {
   height: 30px;
-  
+}
+
+.player-medal {
+  position: absolute;
+  bottom: 13px;
+  left: 5px;
+}
+
+.player-medal img {
+  width: 60px;
 }
 
 .hidden {
   display: none;
 }
 
-.erro-msg{
+.erro-msg {
   margin-top: 50px;
 }
 
-.heroes div, .hero-name, .pontuacao{
+.heroes div,
+.hero-name,
+.pontuacao {
   color: #fff;
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adicione uma sombra ao texto */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  /* Adicione uma sombra ao texto */
 }
 
-.pontuacao{
+
+.pontuacao {
   color: #fff;
   font-weight: bold;
   background-color: rgba(0, 0, 0, 0.527);
+  width: 150px;
+  margin-left: 55px;
 }
-
-
-
 </style>
