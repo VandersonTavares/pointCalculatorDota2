@@ -201,7 +201,7 @@ const pontuacaoFinal = computed(() => {
 const playersTotalScore = computed(() => {
   return playersData.value.map(playerData => {
     // Calcula a pontuação total de cada jogador somando kills, deaths, assists e last hits
-    return playerData.kills + playerData.deaths + playerData.assists + playerData.last_hits;
+    return [(playerData.kills * abatePontos.value) + (Math.floor(playerData.net_worth / 1000) * farmPontosPor1000.value)  + (playerData.assists * assistenciaPontos.value)] - playerData.deaths;
   });
 });
 
