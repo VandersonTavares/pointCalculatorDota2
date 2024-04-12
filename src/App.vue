@@ -244,13 +244,20 @@ function getPlayerMedalImage(rankNumber) {
   const rankData = ranksData[rankNumber];
   // Verifica se o rankData foi encontrado
   if (rankData) {
-    // Retorna o caminho da imagem do rank
-    return rankData.image;
+    // Verifica se o rankNumber é maior ou igual a 80
+    if (rankNumber >= 80) {
+      // Retorna o caminho da imagem para ranks maiores ou iguais a 80
+      return "/src/assets/images/imortal0.png";
+    } else {
+      // Retorna o caminho da imagem do rank padrão
+      return rankData.image;
+    }
   } else {
     // Retorna um caminho de imagem padrão ou uma string vazia em caso de erro
     return "/src/assets/images/uncalibrated.png";
   }
 }
+
 function getPlayerMedalAlt(rankNumber) {
   // Obtém o objeto de rank correto com base no número retornado pela API
   const rankData = ranksData[rankNumber];
