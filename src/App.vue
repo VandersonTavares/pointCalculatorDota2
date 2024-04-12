@@ -104,7 +104,7 @@
   <Card class="card-section">
     <template #content>
       <div class="card-container-data">
-        <Card class="card-player" v-for="playerData in playersData" :key="playerData.account_id"
+        <Card class="card-player" v-for="(playerData, index) in playersData" :key="playerData.account_id"
           :style="{ backgroundImage: `url(${getHeroBackground(playerData.hero_id)})`, backgroundSize: 'cover' }">
           <template #title>
             <div class="hero-name">{{ getHeroName(playerData.hero_id) }}</div>
@@ -130,7 +130,7 @@
             </div>
           </template>
           <template #footer>
-            <div class="pontuacao">Pontuação Final: 225</div>
+            <div class="pontuacao">Pontuação Final: {{ playersTotalScore[index] }}</div>
           </template>
         </Card>
       </div>
@@ -165,6 +165,11 @@ const roshanMorto = ref(0);
 const tempoSobrevividoMinutos = ref(0);
 const suporte = ref(false);
 
+const playersData = ref([]);
+const gameId = ref();
+const loading = ref(false);
+const errorMessage = ref('');
+
 const pontuacaoFinal = computed(() => {
   let pontuacao = 0;
 
@@ -192,10 +197,13 @@ const pontuacaoFinal = computed(() => {
   return pontuacao;
 });
 
-const playersData = ref([]);
-const gameId = ref();
-const loading = ref(false);
-const errorMessage = ref('');
+// Use a função `computed` para calcular a pontuação total de cada jogador
+const playersTotalScore = computed(() => {
+  return playersData.value.map(playerData => {
+    // Calcula a pontuação total de cada jogador somando kills, deaths, assists e last hits
+    return playerData.kills + playerData.deaths + playerData.assists + playerData.last_hits;
+  });
+});
 
 function getHeroName(id) {
   const heroId = id.toString(); // Converter o ID para uma string
